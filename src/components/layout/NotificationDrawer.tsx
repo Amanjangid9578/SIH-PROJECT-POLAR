@@ -67,14 +67,14 @@ export const NotificationDrawer: React.FC = () => {
         onClick={() => setIsNotificationOpen(false)}
       />
 
-      <div className="fixed inset-y-0 right-0 max-w-full flex pl-10">
+      <div className="fixed inset-y-0 right-0 max-w-full flex pl-0 sm:pl-10">
         <div className="w-screen max-w-md bg-polar-900 border-l border-slate-800 shadow-2xl flex flex-col justify-between z-10 text-left">
           {/* Header */}
           <div className="p-4 border-b border-slate-800 bg-polar-950/80">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <Bell className="w-4 h-4 text-cyan-400" />
-                <h2 className="text-sm font-bold uppercase tracking-wider text-slate-100">
+            <div className="flex items-center justify-between gap-2 min-w-0">
+              <div className="flex items-center gap-2 min-w-0">
+                <Bell className="w-4 h-4 text-cyan-400 shrink-0" />
+                <h2 className="text-sm font-bold uppercase tracking-wider text-slate-100 truncate">
                   Command Telemetry Feed
                 </h2>
                 <span className="px-1.5 py-0.5 rounded text-[10px] bg-cyan-950 text-cyan-300 border border-cyan-500/30 font-bold">
@@ -169,7 +169,7 @@ export const NotificationDrawer: React.FC = () => {
                   </div>
 
                   {/* Quick Action Buttons */}
-                  <div className="absolute top-2 right-2 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <div className="absolute top-2 right-2 flex items-center gap-1 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
                     {!notif.read && (
                       <button
                         onClick={() => markNotificationRead(notif.id)}

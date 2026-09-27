@@ -285,7 +285,7 @@ export const PolarAssistant: React.FC<PolarAssistantProps> = ({ isOpen, onClose 
   if (!isOpen) return null;
 
   return (
-    <div className="fixed bottom-6 right-6 z-50 w-[420px] max-w-[calc(100vw-2rem)] h-[620px] max-h-[85vh] bg-polar-900 border border-cyan-500/40 rounded-2xl shadow-[0_0_50px_rgba(6,182,212,0.25)] flex flex-col overflow-hidden font-mono text-left select-none animate-in fade-in slide-in-from-bottom-5 duration-200">
+    <div className="fixed bottom-4 right-4 left-4 sm:left-auto sm:bottom-6 sm:right-6 z-50 w-auto sm:w-[420px] max-w-[calc(100vw-2rem)] h-[min(620px,75vh)] sm:h-[620px] max-h-[85vh] bg-polar-900 border border-cyan-500/40 rounded-2xl shadow-[0_0_50px_rgba(6,182,212,0.25)] flex flex-col overflow-hidden font-mono text-left select-none animate-in fade-in slide-in-from-bottom-5 duration-200">
       {/* Subtle grid watermark */}
       <div className="absolute inset-0 polar-grid opacity-20 pointer-events-none" />
 

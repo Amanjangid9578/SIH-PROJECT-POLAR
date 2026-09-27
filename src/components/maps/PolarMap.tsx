@@ -327,7 +327,7 @@ export const PolarMap: React.FC<PolarMapProps> = ({
     <div
       className={cn(
         'relative bg-polar-950 border border-cyan-500/30 rounded-xl overflow-hidden shadow-2xl transition-all font-mono',
-        isFullscreen ? 'fixed inset-0 z-50 rounded-none border-none' : 'w-full h-[520px]',
+        isFullscreen ? 'fixed inset-0 z-50 rounded-none border-none' : 'w-full h-[min(420px,55vh)] sm:h-[520px]',
         className
       )}
     >
@@ -531,17 +531,18 @@ export const PolarMap: React.FC<PolarMapProps> = ({
       <MapDetailDrawer entity={selectedEntity} onClose={() => setSelectedEntity(null)} />
 
       {/* Top Left: Header + AIS status */}
-      <div className="absolute top-3 left-3 z-[400] max-w-[min(100%,420px)] bg-polar-900/90 backdrop-blur-md border border-cyan-500/30 rounded-lg p-2.5 shadow-lg text-xs space-y-1.5 pointer-events-auto">
+      <div className="absolute top-2 left-2 sm:top-3 sm:left-3 z-[400] max-w-[calc(100%-5.5rem)] sm:max-w-[min(100%,420px)] bg-polar-900/90 backdrop-blur-md border border-cyan-500/30 rounded-lg p-2 sm:p-2.5 shadow-lg text-xs space-y-1 sm:space-y-1.5 pointer-events-auto">
         <div className="flex items-center gap-2 min-w-0">
           <Compass className="w-4 h-4 text-cyan-400 animate-spin-slow shrink-0" />
-          <span className="font-bold text-slate-100 tracking-wider uppercase truncate">
-            ANTARCTIC THEATRE OF OPERATIONS
+          <span className="font-bold text-slate-100 tracking-wider uppercase truncate text-[10px] sm:text-xs">
+            <span className="sm:hidden">ANTARCTIC THEATRE</span>
+            <span className="hidden sm:inline">ANTARCTIC THEATRE OF OPERATIONS</span>
           </span>
-          <span className="shrink-0 px-1.5 py-0.5 rounded text-[10px] bg-cyan-950 text-cyan-300 border border-cyan-500/40">
+          <span className="hidden sm:inline shrink-0 px-1.5 py-0.5 rounded text-[10px] bg-cyan-950 text-cyan-300 border border-cyan-500/40">
             60°S – 90°S
           </span>
         </div>
-        <div className="flex flex-wrap items-center gap-2 text-[11px] text-slate-400">
+        <div className="hidden sm:flex flex-wrap items-center gap-2 text-[11px] text-slate-400">
           <span className="truncate">
             Trackers: {vessels.length + stations.length + personnel.length}
           </span>
@@ -567,15 +568,15 @@ export const PolarMap: React.FC<PolarMapProps> = ({
       </div>
 
       {/* Top Right: Layers + Reset + Fullscreen */}
-      <div className="absolute top-3 right-3 z-[400] flex items-center gap-2 pointer-events-auto">
+      <div className="absolute top-2 right-2 sm:top-3 sm:right-3 z-[400] flex items-center gap-1.5 sm:gap-2 pointer-events-auto">
         <div className="relative">
           <button
             type="button"
             onClick={() => setIsLayerMenuOpen(!isLayerMenuOpen)}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-polar-900/90 backdrop-blur-md border border-slate-700 hover:border-cyan-400 text-slate-200 text-xs shadow-lg transition-all"
+            className="flex items-center gap-1.5 px-2 sm:px-3 py-1.5 rounded-lg bg-polar-900/90 backdrop-blur-md border border-slate-700 hover:border-cyan-400 text-slate-200 text-xs shadow-lg transition-all"
           >
             <Layers className="w-3.5 h-3.5 text-cyan-400" />
-            <span>Map Layers</span>
+            <span className="hidden sm:inline">Map Layers</span>
           </button>
 
           {isLayerMenuOpen && (

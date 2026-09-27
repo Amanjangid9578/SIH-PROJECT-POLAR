@@ -8,16 +8,18 @@ import {
   User,
   ShieldAlert,
   ChevronDown,
-  Sparkles
+  Sparkles,
+  Menu
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { cn } from '../../utils/formatters';
 
 interface TopbarProps {
   onOpenAiAssistant?: () => void;
+  onOpenMobileNav?: () => void;
 }
 
-export const Topbar: React.FC<TopbarProps> = ({ onOpenAiAssistant }) => {
+export const Topbar: React.FC<TopbarProps> = ({ onOpenAiAssistant, onOpenMobileNav }) => {
   const {
     expeditions,
     activeExpeditionId,
@@ -42,8 +44,16 @@ export const Topbar: React.FC<TopbarProps> = ({ onOpenAiAssistant }) => {
         : 'AIS OFF';
 
   return (
-    <header className="h-16 shrink-0 bg-polar-900/90 backdrop-blur-md border-b border-slate-800/80 px-3 sm:px-4 flex items-center gap-2 sm:gap-3 z-20 sticky top-0 min-w-0 overflow-hidden">
-      {/* Left: Expedition selector */}
+    <header className="h-16 shrink-0 bg-polar-900/90 backdrop-blur-md border-b border-slate-800/80 px-3 sm:px-4 lg:px-6 flex items-center gap-2 sm:gap-3 z-20 sticky top-0 min-w-0 overflow-hidden">
+      <button
+        type="button"
+        onClick={onOpenMobileNav}
+        className="lg:hidden shrink-0 p-2 rounded-md bg-polar-950/90 border border-slate-700 hover:border-cyan-400 text-slate-300 hover:text-white transition-all"
+        aria-label="Open navigation menu"
+      >
+        <Menu className="w-4 h-4" />
+      </button>
+
       <div className="flex items-center gap-2 min-w-0 flex-1 overflow-hidden">
         <div className="hidden xl:flex items-center gap-2 pr-3 border-r border-slate-800 shrink-0">
           <div className="h-8 w-8 rounded bg-cyan-950/60 border border-cyan-500/30 flex items-center justify-center text-cyan-400 font-black font-mono text-xs">
@@ -54,7 +64,7 @@ export const Topbar: React.FC<TopbarProps> = ({ onOpenAiAssistant }) => {
               GOVT. OF INDIA • MoES
             </div>
             <div className="text-xs font-semibold text-slate-200 tracking-tight whitespace-nowrap">
-              Polar Ops
+              Polar Expedition Operations
             </div>
           </div>
         </div>
@@ -65,7 +75,7 @@ export const Topbar: React.FC<TopbarProps> = ({ onOpenAiAssistant }) => {
             EXPEDITION
           </span>
 
-          <div className="relative min-w-0 flex-1 max-w-[280px]">
+          <div className="relative min-w-0 flex-1 max-w-[200px] sm:max-w-[240px] lg:max-w-[280px]">
             <select
               value={activeExpeditionId}
               onChange={e => setActiveExpeditionId(e.target.value)}
@@ -83,8 +93,7 @@ export const Topbar: React.FC<TopbarProps> = ({ onOpenAiAssistant }) => {
         </div>
       </div>
 
-      {/* Center: compact status chips (wide screens only) */}
-      <div className="hidden 2xl:flex items-center gap-2 shrink-0">
+      <div className="hidden xl:flex items-center gap-2 shrink-0">
         <div className="flex items-center gap-1.5 px-2 py-1 rounded-md bg-polar-950/80 border border-slate-800 text-[11px] font-mono text-slate-300 whitespace-nowrap">
           <Clock className="w-3.5 h-3.5 text-sky-400 shrink-0" />
           <span className="tracking-wider text-sky-200">{utcTime || 'UTC'}</span>
@@ -120,7 +129,6 @@ export const Topbar: React.FC<TopbarProps> = ({ onOpenAiAssistant }) => {
         </div>
       </div>
 
-      {/* Right: actions — never shrink/overflow */}
       <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
         <button
           type="button"
@@ -130,6 +138,9 @@ export const Topbar: React.FC<TopbarProps> = ({ onOpenAiAssistant }) => {
         >
           <Search className="w-3.5 h-3.5 text-slate-400 shrink-0" />
           <span className="hidden md:inline">Search</span>
+          <kbd className="hidden lg:inline-block px-1.5 py-0.5 text-[10px] font-mono text-slate-400 bg-polar-800 rounded border border-slate-700">
+            Ctrl K
+          </kbd>
         </button>
 
         {onOpenAiAssistant && (
@@ -140,14 +151,13 @@ export const Topbar: React.FC<TopbarProps> = ({ onOpenAiAssistant }) => {
             title="POLAR AI Assistant"
           >
             <Sparkles className="w-3.5 h-3.5 text-cyan-400 animate-pulse shrink-0" />
-            <span className="hidden md:inline">AI</span>
+            <span className="hidden md:inline">POLAR AI</span>
           </button>
         )}
 
-        {/* Compact AIS on mid widths where center strip is hidden */}
         <div
           className={cn(
-            '2xl:hidden flex items-center gap-1 px-1.5 py-1.5 rounded-md border text-[10px] font-mono uppercase',
+            'xl:hidden flex items-center gap-1 px-1.5 py-1.5 rounded-md border text-[10px] font-mono uppercase',
             aisStatus === 'LIVE_CONNECTED'
               ? 'bg-cyan-950/50 border-cyan-500/50 text-cyan-300'
               : 'bg-slate-900 border-slate-700 text-slate-400'
@@ -179,6 +189,14 @@ export const Topbar: React.FC<TopbarProps> = ({ onOpenAiAssistant }) => {
         <div className="hidden sm:flex items-center gap-2 pl-2 border-l border-slate-800 shrink-0">
           <div className="h-8 w-8 rounded-full bg-polar-800 border border-cyan-500/40 flex items-center justify-center text-cyan-400 font-mono text-xs font-bold shadow-inner shrink-0">
             <User className="w-4 h-4" />
+          </div>
+          <div className="hidden 2xl:block text-left min-w-0">
+            <div className="text-xs font-mono font-bold text-slate-200 truncate max-w-[120px]">
+              Dr. R. K. Nair
+            </div>
+            <div className="text-[10px] font-mono text-cyan-400/90 tracking-wide">
+              EXPEDITION DIRECTOR
+            </div>
           </div>
         </div>
       </div>

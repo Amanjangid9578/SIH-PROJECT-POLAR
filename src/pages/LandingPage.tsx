@@ -35,16 +35,16 @@ export const LandingPage: React.FC = () => {
       </div>
 
       {/* Top Header */}
-      <header className="relative z-10 px-6 sm:px-12 py-6 flex items-center justify-between border-b border-slate-800/60 bg-polar-950/60 backdrop-blur-md">
-        <div className="flex items-center gap-3">
-          <div className="h-10 w-10 rounded-lg bg-cyan-950 border border-cyan-500/50 flex items-center justify-center shadow-[0_0_15px_rgba(6,182,212,0.35)]">
+      <header className="relative z-10 px-4 sm:px-12 py-4 sm:py-6 flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800/60 bg-polar-950/60 backdrop-blur-md min-w-0">
+        <div className="flex items-center gap-3 min-w-0">
+          <div className="h-10 w-10 shrink-0 rounded-lg bg-cyan-950 border border-cyan-500/50 flex items-center justify-center shadow-[0_0_15px_rgba(6,182,212,0.35)]">
             <Radio className="w-5 h-5 text-cyan-400 animate-pulse" />
           </div>
-          <div>
+          <div className="min-w-0">
             <span className="text-base font-black tracking-wider text-slate-100 font-mono">
               POLAR COMMAND
             </span>
-            <p className="text-[10px] text-cyan-400 font-mono tracking-widest uppercase">
+            <p className="text-[10px] text-cyan-400 font-mono tracking-widest uppercase truncate">
               MINISTRY OF EARTH SCIENCES • NCPOR GOA
             </p>
           </div>
@@ -56,8 +56,10 @@ export const LandingPage: React.FC = () => {
             <span>THEATRE STATUS: SECURE</span>
           </div>
 
-          <div className="flex items-center gap-2 px-2.5 py-1 rounded-md bg-cyan-950/60 border border-cyan-500/40 text-cyan-300 text-[11px]">
-            <span>AIS: {aisStatus === 'LIVE_CONNECTED' ? 'LIVE AISSTREAM' : 'ACTIVE SIMULATOR'}</span>
+          <div className="flex items-center gap-2 px-2.5 py-1 rounded-md bg-cyan-950/60 border border-cyan-500/40 text-cyan-300 text-[11px] max-w-full">
+            <span className="truncate">
+              AIS: {aisStatus === 'LIVE_CONNECTED' ? 'LIVE' : 'SIMULATOR'}
+            </span>
           </div>
         </div>
       </header>
@@ -65,10 +67,13 @@ export const LandingPage: React.FC = () => {
       {/* Center Cinematic Hero */}
       <main className="relative z-10 max-w-5xl mx-auto px-6 py-12 sm:py-20 text-center space-y-8">
         {/* Polar Tag Badge */}
-        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-cyan-950/80 border border-cyan-500/40 text-cyan-300 text-xs font-mono shadow-[0_0_15px_rgba(6,182,212,0.25)]">
-          <Globe2 className="w-3.5 h-3.5 text-cyan-400 animate-spin-slow" />
-          <span className="tracking-widest uppercase font-bold">
-            INTEGRATED POLAR EXPEDITION LOGISTICS & ASSET MANAGEMENT SYSTEM
+        <div className="inline-flex flex-wrap items-center justify-center gap-2 px-3.5 py-1.5 rounded-full bg-cyan-950/80 border border-cyan-500/40 text-cyan-300 text-[10px] sm:text-xs font-mono shadow-[0_0_15px_rgba(6,182,212,0.25)] max-w-full mx-2">
+          <Globe2 className="w-3.5 h-3.5 text-cyan-400 animate-spin-slow shrink-0" />
+          <span className="tracking-widest uppercase font-bold text-center break-words">
+            <span className="sm:hidden">POLAR LOGISTICS & ASSET MGMT</span>
+            <span className="hidden sm:inline">
+              INTEGRATED POLAR EXPEDITION LOGISTICS & ASSET MANAGEMENT SYSTEM
+            </span>
           </span>
         </div>
 
@@ -131,10 +136,12 @@ export const LandingPage: React.FC = () => {
 
       {/* Footer */}
       <footer className="relative z-10 px-6 py-4 border-t border-slate-800/60 bg-polar-950/80 backdrop-blur-md flex flex-col sm:flex-row items-center justify-between text-[11px] text-slate-400 gap-2">
-        <div className="flex items-center gap-3">
+        <div className="flex flex-col sm:flex-row items-center gap-1 sm:gap-3 text-center sm:text-left">
           <span>SMART INDIA HACKATHON 2026</span>
-          <span>•</span>
-          <span className="text-cyan-400">PROBLEM STATEMENT: POLAR LOGISTICS & ASSET MANAGEMENT</span>
+          <span className="hidden sm:inline">•</span>
+          <span className="text-cyan-400 break-words">
+            PROBLEM STATEMENT: POLAR LOGISTICS & ASSET MANAGEMENT
+          </span>
         </div>
         <div className="text-slate-500">
           OPERATIONAL READINESS LEVEL: PRODUCTION DEMO

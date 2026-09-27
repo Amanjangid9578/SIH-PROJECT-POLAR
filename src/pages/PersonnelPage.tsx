@@ -378,7 +378,7 @@ export const PersonnelPage: React.FC = () => {
             className="fixed inset-0 bg-polar-950/75 backdrop-blur-sm"
             onClick={() => setSelectedPersonForHistory(null)}
           />
-          <div className="fixed inset-y-0 right-0 max-w-full flex pl-10">
+          <div className="fixed inset-y-0 right-0 max-w-full flex pl-0 sm:pl-10">
             <div className="w-screen max-w-md bg-polar-900 border-l border-slate-800 shadow-2xl p-5 flex flex-col justify-between z-10 text-left overflow-y-auto">
               <div>
                 <div className="flex items-center justify-between pb-3 border-b border-slate-800 mb-4">

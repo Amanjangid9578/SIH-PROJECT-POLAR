@@ -393,7 +393,7 @@ export const MapDetailDrawer: React.FC<MapDetailDrawerProps> = ({ entity, onClos
   );
 
   return (
-    <div className="absolute top-4 right-4 z-[400] w-[min(100%-2rem,24rem)] max-w-[calc(100%-2rem)] bg-polar-900/95 backdrop-blur-md border border-cyan-500/40 rounded-xl shadow-2xl p-4 text-left font-mono max-h-[85vh] overflow-y-auto overflow-x-hidden animate-in fade-in slide-in-from-right-4 duration-200">
+    <div className="absolute z-[400] inset-x-2 bottom-2 sm:inset-auto sm:top-4 sm:right-4 sm:bottom-auto w-auto sm:w-[min(100%-2rem,24rem)] max-w-[calc(100%-1rem)] sm:max-w-[calc(100%-2rem)] bg-polar-900/95 backdrop-blur-md border border-cyan-500/40 rounded-xl shadow-2xl p-4 text-left font-mono max-h-[50vh] sm:max-h-[85vh] overflow-y-auto overflow-x-hidden animate-in fade-in slide-in-from-bottom-4 sm:slide-in-from-right-4 duration-200">
       <div className="flex items-center justify-between pb-3 border-b border-slate-800 mb-3">
         <span className="text-xs uppercase font-mono tracking-wider text-cyan-400 font-bold flex items-center gap-1.5">
           <Navigation className="w-3.5 h-3.5" />
