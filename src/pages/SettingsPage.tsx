@@ -61,42 +61,46 @@ export const SettingsPage: React.FC = () => {
   return (
     <div className="space-y-6 pb-12 font-mono text-left select-none max-w-5xl mx-auto">
       {/* Header */}
-      <div className="pb-4 border-b border-slate-800">
-        <div className="flex items-center gap-2 mb-1">
-          <Settings className="w-5 h-5 text-cyan-400" />
-          <h1 className="text-lg sm:text-xl font-black text-slate-100 uppercase tracking-tight">
+      <div className="pb-4 border-b border-slate-800 min-w-0">
+        <div className="flex items-center gap-2 mb-1 min-w-0">
+          <Settings className="w-5 h-5 text-cyan-400 shrink-0" />
+          <h1 className="text-lg sm:text-xl font-black text-slate-100 uppercase tracking-tight truncate">
             System Settings & Telemetry Telecommunications
           </h1>
         </div>
-        <p className="text-xs text-slate-400">
+        <p className="text-xs text-slate-400 break-words">
           AISStream integration, local persistent storage, telemetry formats, and mission control diagnostic suites
         </p>
       </div>
 
       {/* AISStream Integration Card */}
       <div className="p-5 rounded-xl bg-polar-900 border border-slate-800 space-y-4 shadow-xl">
-        <div className="flex items-center justify-between pb-3 border-b border-slate-800">
-          <div className="flex items-center gap-2.5">
-            <Radio className="w-5 h-5 text-cyan-400 animate-pulse" />
-            <div>
-              <h3 className="text-sm font-bold text-slate-100 uppercase">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-3 border-b border-slate-800 min-w-0">
+          <div className="flex items-center gap-2.5 min-w-0">
+            <Radio className="w-5 h-5 text-cyan-400 animate-pulse shrink-0" />
+            <div className="min-w-0">
+              <h3 className="text-sm font-bold text-slate-100 uppercase truncate">
                 AISStream.io Real-Time Maritime Integration
               </h3>
-              <p className="text-xs text-slate-400">
+              <p className="text-xs text-slate-400 break-words">
                 Live WebSocket satellite streaming for polar research vessels & icebreakers
               </p>
             </div>
           </div>
 
           <span
-            className="px-2.5 py-1 rounded text-xs uppercase font-bold border"
+            className="shrink-0 self-start px-2.5 py-1 rounded text-xs uppercase font-bold border"
             style={{
               backgroundColor: aisStatus === 'LIVE_CONNECTED' ? 'rgba(6, 182, 212, 0.15)' : 'rgba(15, 23, 42, 0.8)',
               color: aisStatus === 'LIVE_CONNECTED' ? '#06b6d4' : '#94a3b8',
               borderColor: aisStatus === 'LIVE_CONNECTED' ? 'rgba(6, 182, 212, 0.4)' : '#334155'
             }}
           >
-            {aisStatus === 'LIVE_CONNECTED' ? '● LIVE WEBSOCKET CONNECTED' : '○ SIMULATOR FALLBACK ACTIVE'}
+            {aisStatus === 'LIVE_CONNECTED'
+              ? '● LIVE WEBSOCKET CONNECTED'
+              : aisStatus === 'DEMO_FALLBACK'
+                ? '○ DEMO DATA FALLBACK'
+                : '○ AIS DISCONNECTED'}
           </span>
         </div>
 
@@ -125,18 +129,18 @@ export const SettingsPage: React.FC = () => {
             </p>
           </div>
 
-          <div className="p-3 rounded-lg bg-polar-950 border border-slate-800 text-[11px] space-y-1 text-slate-300">
-            <div className="flex justify-between">
-              <span className="text-slate-400">WebSocket Endpoint:</span>
-              <span className="text-slate-200">wss://stream.aisstream.io/v0/stream</span>
+          <div className="p-3 rounded-lg bg-polar-950 border border-slate-800 text-[11px] space-y-2 text-slate-300 overflow-hidden">
+            <div className="flex flex-col sm:flex-row sm:justify-between gap-1 min-w-0">
+              <span className="text-slate-400 shrink-0">WebSocket Endpoint:</span>
+              <span className="text-slate-200 break-all text-right">wss://stream.aisstream.io/v0/stream</span>
             </div>
-            <div className="flex justify-between">
-              <span className="text-slate-400">Geographic Bounding Box:</span>
-              <span className="text-cyan-300">Antarctic Waters & Southern Ocean ([-90, -180] to [-40, 180])</span>
+            <div className="flex flex-col sm:flex-row sm:justify-between gap-1 min-w-0">
+              <span className="text-slate-400 shrink-0">Geographic Bounding Box:</span>
+              <span className="text-cyan-300 break-words text-right">Antarctic Waters & Southern Ocean ([-90, -180] to [-40, 180])</span>
             </div>
-            <div className="flex justify-between">
-              <span className="text-slate-400">Telemetry Feed Status:</span>
-              <span className="text-emerald-400 font-bold">{aisStatusMessage}</span>
+            <div className="flex flex-col sm:flex-row sm:justify-between gap-1 min-w-0">
+              <span className="text-slate-400 shrink-0">Telemetry Feed Status:</span>
+              <span className="text-emerald-400 font-bold break-words text-right">{aisStatusMessage}</span>
             </div>
           </div>
 

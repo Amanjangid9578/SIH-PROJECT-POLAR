@@ -2,18 +2,10 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   X,
-  Compass,
-  Ship,
-  Box,
-  Users,
-  AlertTriangle,
-  Building2,
   Navigation,
   Wind,
   Thermometer,
-  Clock,
-  ArrowRight,
-  ExternalLink
+  ArrowRight
 } from 'lucide-react';
 import { formatCoordinates, formatUtcDateTime, formatWeight, cn } from '../../utils/formatters';
 import { ResearchStation, Vessel, CargoItem, Personnel, EmergencyIncident } from '../../types';
@@ -37,11 +29,11 @@ export const MapDetailDrawer: React.FC<MapDetailDrawerProps> = ({ entity, onClos
 
   const renderStation = (st: ResearchStation) => (
     <div className="space-y-4">
-      <div className="flex items-center gap-3">
-        <div className="text-3xl">{st.flag}</div>
-        <div>
-          <h3 className="text-base font-bold text-slate-100">{st.name}</h3>
-          <p className="text-xs text-sky-400 font-mono">
+      <div className="flex items-center gap-3 min-w-0">
+        <div className="text-3xl shrink-0">{st.flag}</div>
+        <div className="min-w-0">
+          <h3 className="text-base font-bold text-slate-100 truncate">{st.name}</h3>
+          <p className="text-xs text-sky-400 font-mono truncate">
             {st.country} • Established {st.established}
           </p>
         </div>
@@ -49,12 +41,24 @@ export const MapDetailDrawer: React.FC<MapDetailDrawerProps> = ({ entity, onClos
 
       {/* Coordinates & Status */}
       <div className="grid grid-cols-2 gap-2 text-xs font-mono">
-        <div className="p-2.5 rounded bg-polar-950/80 border border-slate-800">
+        <div className="p-2.5 rounded bg-polar-950/80 border border-slate-800 min-w-0">
+          <span className="text-slate-400 text-[10px] uppercase block">ID</span>
+          <span className="text-slate-200 font-semibold break-all">{st.id}</span>
+        </div>
+        <div className="p-2.5 rounded bg-polar-950/80 border border-slate-800 min-w-0">
+          <span className="text-slate-400 text-[10px] uppercase block">Type</span>
+          <span className="text-sky-300 font-semibold">Research Station</span>
+        </div>
+        <div className="p-2.5 rounded bg-polar-950/80 border border-slate-800 min-w-0 col-span-2">
           <span className="text-slate-400 text-[10px] uppercase block">Coordinates</span>
-          <span className="text-cyan-300 font-semibold">{formatCoordinates(st.coords.lat, st.coords.lng)}</span>
+          <span className="text-cyan-300 font-semibold break-all">{formatCoordinates(st.coords.lat, st.coords.lng)}</span>
         </div>
         <div className="p-2.5 rounded bg-polar-950/80 border border-slate-800">
-          <span className="text-slate-400 text-[10px] uppercase block">Current Personnel</span>
+          <span className="text-slate-400 text-[10px] uppercase block">Status</span>
+          <span className="text-emerald-300 font-semibold">{st.status}</span>
+        </div>
+        <div className="p-2.5 rounded bg-polar-950/80 border border-slate-800">
+          <span className="text-slate-400 text-[10px] uppercase block">Personnel</span>
           <span className="text-emerald-300 font-semibold">{st.currentPersonnel} / {st.capacity}</span>
         </div>
       </div>
@@ -106,72 +110,86 @@ export const MapDetailDrawer: React.FC<MapDetailDrawerProps> = ({ entity, onClos
 
   const renderVessel = (v: Vessel) => (
     <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <div>
-          <h3 className="text-base font-bold text-slate-100 flex items-center gap-2">
-            <span>{v.name}</span>
-            <span className="text-lg">{v.flag}</span>
+      <div className="flex items-start justify-between gap-2 min-w-0">
+        <div className="min-w-0">
+          <h3 className="text-base font-bold text-slate-100 flex items-center gap-2 min-w-0">
+            <span className="truncate">{v.name}</span>
+            <span className="text-lg shrink-0">{v.flag}</span>
           </h3>
-          <p className="text-xs text-cyan-400 font-mono">
+          <p className="text-xs text-cyan-400 font-mono truncate">
             {v.type} • Call Sign: {v.callSign}
           </p>
         </div>
         <span
           className={cn(
-            'px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase border',
+            'shrink-0 px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase border',
             v.isLiveAis
               ? 'bg-cyan-950 text-cyan-300 border-cyan-500/40'
-              : 'bg-slate-900 text-slate-400 border-slate-700'
+              : 'bg-amber-950 text-amber-300 border-amber-500/40'
           )}
         >
-          {v.isLiveAis ? '● LIVE AIS' : '○ DEMO AIS'}
+          {v.isLiveAis ? '● LIVE AIS' : '○ DEMO DATA'}
         </span>
       </div>
 
-      {/* AIS Telemetry Data */}
+      {/* Core identity + kinematics */}
       <div className="grid grid-cols-2 gap-2 text-xs font-mono">
-        <div className="p-2.5 rounded bg-polar-950/80 border border-slate-800">
+        <div className="p-2.5 rounded bg-polar-950/80 border border-slate-800 min-w-0">
+          <span className="text-slate-400 text-[10px] uppercase block">ID</span>
+          <span className="text-slate-200 font-semibold break-all">{v.id}</span>
+        </div>
+        <div className="p-2.5 rounded bg-polar-950/80 border border-slate-800 min-w-0">
           <span className="text-slate-400 text-[10px] uppercase block">MMSI</span>
-          <span className="text-slate-200 font-semibold">{v.mmsi}</span>
+          <span className="text-slate-200 font-semibold break-all">{v.mmsi}</span>
+        </div>
+        <div className="p-2.5 rounded bg-polar-950/80 border border-slate-800 min-w-0 col-span-2">
+          <span className="text-slate-400 text-[10px] uppercase block">Coordinates</span>
+          <span className="text-cyan-300 font-semibold break-all">
+            {formatCoordinates(v.coords.lat, v.coords.lng)}
+          </span>
         </div>
         <div className="p-2.5 rounded bg-polar-950/80 border border-slate-800">
-          <span className="text-slate-400 text-[10px] uppercase block">Speed / SOG</span>
+          <span className="text-slate-400 text-[10px] uppercase block">Speed</span>
           <span className="text-cyan-300 font-semibold">{v.speedKnots} knots</span>
         </div>
         <div className="p-2.5 rounded bg-polar-950/80 border border-slate-800">
-          <span className="text-slate-400 text-[10px] uppercase block">Heading / COG</span>
+          <span className="text-slate-400 text-[10px] uppercase block">Heading</span>
           <span className="text-sky-300 font-semibold">{v.heading}° TRUE</span>
         </div>
         <div className="p-2.5 rounded bg-polar-950/80 border border-slate-800">
+          <span className="text-slate-400 text-[10px] uppercase block">Status</span>
+          <span className="text-emerald-300 font-semibold">{v.status}</span>
+        </div>
+        <div className="p-2.5 rounded bg-polar-950/80 border border-slate-800">
           <span className="text-slate-400 text-[10px] uppercase block">Ice Class</span>
-          <span className="text-slate-200 font-semibold">{v.iceClass}</span>
+          <span className="text-slate-200 font-semibold truncate block">{v.iceClass}</span>
         </div>
       </div>
 
       {/* Route & ETA */}
       <div className="p-3 rounded-lg bg-polar-950/90 border border-slate-800 space-y-2 text-xs font-mono">
-        <div className="flex justify-between items-center text-[11px] pb-1 border-b border-slate-800">
-          <span className="text-slate-400">VOYAGE PLAN</span>
-          <span className="text-emerald-400 font-bold">{v.status}</span>
+        <div className="flex justify-between items-center gap-2 text-[11px] pb-1 border-b border-slate-800">
+          <span className="text-slate-400 shrink-0">VOYAGE PLAN</span>
+          <span className="text-emerald-400 font-bold truncate">{v.status}</span>
         </div>
-        <div className="space-y-1">
-          <div className="flex justify-between">
-            <span className="text-slate-400">Origin:</span>
-            <span className="text-slate-200">{v.origin}</span>
+        <div className="space-y-1.5">
+          <div className="flex justify-between gap-2 min-w-0">
+            <span className="text-slate-400 shrink-0">Origin:</span>
+            <span className="text-slate-200 text-right break-words min-w-0">{v.origin}</span>
           </div>
-          <div className="flex justify-between">
-            <span className="text-slate-400">Destination:</span>
-            <span className="text-cyan-300 font-semibold">{v.destination}</span>
+          <div className="flex justify-between gap-2 min-w-0">
+            <span className="text-slate-400 shrink-0">Destination:</span>
+            <span className="text-cyan-300 font-semibold text-right break-words min-w-0">{v.destination}</span>
           </div>
-          <div className="flex justify-between">
-            <span className="text-slate-400">Estimated Arrival:</span>
-            <span className="text-sky-300 font-semibold">
+          <div className="flex justify-between gap-2 min-w-0">
+            <span className="text-slate-400 shrink-0">ETA:</span>
+            <span className="text-sky-300 font-semibold text-right break-words min-w-0">
               {new Date(v.eta).toUTCString().substring(0, 22)}
             </span>
           </div>
-          <div className="flex justify-between text-[11px] pt-1 border-t border-slate-800 text-slate-500">
-            <span>Last Telemetry Ping:</span>
-            <span>{formatUtcDateTime(v.lastUpdate)}</span>
+          <div className="flex justify-between gap-2 text-[11px] pt-1 border-t border-slate-800 text-slate-500 min-w-0">
+            <span className="shrink-0">Last Updated:</span>
+            <span className="text-right break-words min-w-0">{formatUtcDateTime(v.lastUpdate)}</span>
           </div>
         </div>
       </div>
@@ -375,7 +393,7 @@ export const MapDetailDrawer: React.FC<MapDetailDrawerProps> = ({ entity, onClos
   );
 
   return (
-    <div className="absolute top-4 right-4 z-[400] w-80 sm:w-96 bg-polar-900/95 backdrop-blur-md border border-cyan-500/40 rounded-xl shadow-2xl p-4 text-left font-mono max-h-[85vh] overflow-y-auto animate-in fade-in slide-in-from-right-4 duration-200">
+    <div className="absolute top-4 right-4 z-[400] w-[min(100%-2rem,24rem)] max-w-[calc(100%-2rem)] bg-polar-900/95 backdrop-blur-md border border-cyan-500/40 rounded-xl shadow-2xl p-4 text-left font-mono max-h-[85vh] overflow-y-auto overflow-x-hidden animate-in fade-in slide-in-from-right-4 duration-200">
       <div className="flex items-center justify-between pb-3 border-b border-slate-800 mb-3">
         <span className="text-xs uppercase font-mono tracking-wider text-cyan-400 font-bold flex items-center gap-1.5">
           <Navigation className="w-3.5 h-3.5" />

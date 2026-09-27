@@ -128,15 +128,15 @@ export const DashboardPage: React.FC = () => {
 
       {/* Live Polar Map Centerpiece */}
       <div className="space-y-2">
-        <div className="flex items-center justify-between text-xs font-mono">
-          <div className="flex items-center gap-2">
-            <Radio className="w-3.5 h-3.5 text-cyan-400 animate-pulse" />
-            <span className="font-bold text-slate-200 uppercase tracking-wider">
+        <div className="flex items-center justify-between gap-3 text-xs font-mono min-w-0">
+          <div className="flex items-center gap-2 min-w-0">
+            <Radio className="w-3.5 h-3.5 text-cyan-400 animate-pulse shrink-0" />
+            <span className="font-bold text-slate-200 uppercase tracking-wider truncate">
               CENTRAL OPERATIONAL PICTURE • REAL-TIME POLAR THEATRE
             </span>
           </div>
-          <span className="text-slate-400 hidden sm:inline">
-            Interactive Leaflet Map • Click any vessel, station, cargo, or emergency marker for telemetry
+          <span className="text-slate-400 hidden lg:inline shrink-0 truncate max-w-[45%]">
+            Interactive Leaflet Map • Click any marker for telemetry
           </span>
         </div>
 
@@ -147,19 +147,19 @@ export const DashboardPage: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 font-mono text-left">
         {/* Left 2 Cols: Fleet & Station Telemetry */}
         <div className="lg:col-span-2 rounded-xl bg-polar-900/90 border border-slate-800 p-5 space-y-4">
-          <div className="flex items-center justify-between pb-3 border-b border-slate-800">
-            <div>
-              <h3 className="text-sm font-bold text-slate-100 uppercase tracking-wider flex items-center gap-2">
-                <Ship className="w-4 h-4 text-cyan-400" />
-                <span>Expedition Support Fleet Telemetry</span>
+          <div className="flex items-center justify-between gap-3 pb-3 border-b border-slate-800 min-w-0">
+            <div className="min-w-0">
+              <h3 className="text-sm font-bold text-slate-100 uppercase tracking-wider flex items-center gap-2 min-w-0">
+                <Ship className="w-4 h-4 text-cyan-400 shrink-0" />
+                <span className="truncate">Expedition Support Fleet Telemetry</span>
               </h3>
-              <p className="text-xs text-slate-400 mt-0.5">
+              <p className="text-xs text-slate-400 mt-0.5 break-words">
                 Vessels actively navigating Southern Ocean & Antarctic coastal fast-ice
               </p>
             </div>
             <button
               onClick={() => navigate('/cargo')}
-              className="text-xs text-cyan-400 hover:text-cyan-300 flex items-center gap-1 font-bold"
+              className="text-xs text-cyan-400 hover:text-cyan-300 flex items-center gap-1 font-bold shrink-0"
             >
               <span>Cargo Board</span>
               <ArrowRight className="w-3.5 h-3.5" />
@@ -172,26 +172,26 @@ export const DashboardPage: React.FC = () => {
                 key={vessel.id}
                 className="p-3.5 rounded-lg bg-polar-950 border border-slate-800/80 hover:border-cyan-500/40 transition-all space-y-2"
               >
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <span className="text-base">{vessel.flag}</span>
-                    <span className="font-bold text-slate-100 text-xs">{vessel.name}</span>
+                <div className="flex items-center justify-between gap-2 min-w-0">
+                  <div className="flex items-center gap-2 min-w-0">
+                    <span className="text-base shrink-0">{vessel.flag}</span>
+                    <span className="font-bold text-slate-100 text-xs truncate">{vessel.name}</span>
                   </div>
                   <span
-                    className="text-[10px] px-1.5 py-0.2 rounded font-bold uppercase bg-cyan-950 text-cyan-300 border border-cyan-500/30"
+                    className="shrink-0 text-[10px] px-1.5 py-0.5 rounded font-bold uppercase bg-cyan-950 text-cyan-300 border border-cyan-500/30"
                   >
                     {vessel.speedKnots} kts
                   </span>
                 </div>
 
-                <div className="text-[11px] text-slate-400 space-y-1">
-                  <div className="flex justify-between">
-                    <span>MMSI: <strong className="text-slate-200">{vessel.mmsi}</strong></span>
-                    <span>HDG: <strong className="text-sky-300">{vessel.heading}°</strong></span>
+                <div className="text-[11px] text-slate-400 space-y-1 min-w-0">
+                  <div className="flex justify-between gap-2 min-w-0">
+                    <span className="truncate">MMSI: <strong className="text-slate-200">{vessel.mmsi}</strong></span>
+                    <span className="shrink-0">HDG: <strong className="text-sky-300">{vessel.heading}°</strong></span>
                   </div>
-                  <div className="flex justify-between truncate">
-                    <span>Destination:</span>
-                    <span className="text-cyan-300 font-bold truncate ml-1">{vessel.destination}</span>
+                  <div className="flex justify-between gap-2 min-w-0">
+                    <span className="shrink-0">Destination:</span>
+                    <span className="text-cyan-300 font-bold truncate ml-1 min-w-0">{vessel.destination}</span>
                   </div>
                   <div className="flex justify-between text-[10px] text-slate-500 pt-1 border-t border-slate-900">
                     <span>Ice Class: {vessel.iceClass}</span>

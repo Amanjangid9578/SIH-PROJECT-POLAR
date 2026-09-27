@@ -275,7 +275,7 @@ export const PersonnelPage: React.FC = () => {
               <div
                 key={person.id}
                 className={cn(
-                  'rounded-xl border p-4.5 bg-polar-900/90 transition-all space-y-3 relative group',
+                  'rounded-xl border p-4 bg-polar-900/90 transition-all space-y-3 relative group',
                   person.checkInOverdue
                     ? 'border-rose-500/60 shadow-[0_0_15px_rgba(239,68,68,0.2)]'
                     : 'border-slate-800 hover:border-cyan-500/40'
@@ -284,7 +284,7 @@ export const PersonnelPage: React.FC = () => {
                 {/* Header */}
                 <div className="flex items-start justify-between gap-2">
                   <div>
-                    <span className="text-[10px] text-cyan-400 font-bold tracking-wider block">
+                    <span className="text-[10px] text-cyan-400 font-bold tracking-wider block mt-0.5 ml-0.5">
                       {person.badgeNumber}
                     </span>
                     <h3 className="text-base font-bold text-slate-100 mt-0.5">{person.name}</h3>

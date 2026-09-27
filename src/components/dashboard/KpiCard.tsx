@@ -57,32 +57,32 @@ export const KpiCard: React.FC<KpiCardProps> = ({
       </div>
 
       {/* Main Metric */}
-      <div className="flex items-baseline justify-between gap-2 mt-1">
-        <span className="text-2xl sm:text-3xl font-black text-slate-100 tracking-tight">
+      <div className="flex items-baseline justify-between gap-2 mt-1 min-w-0">
+        <span className="text-2xl sm:text-3xl font-black text-slate-100 tracking-tight truncate min-w-0">
           {value}
         </span>
         {change && (
           <div
             className={cn(
-              'flex items-center gap-1 text-[11px] font-bold px-1.5 py-0.5 rounded',
+              'flex items-center gap-1 text-[11px] font-bold px-1.5 py-0.5 rounded shrink-0 max-w-[50%]',
               isPositiveChange
                 ? 'bg-emerald-950/80 text-emerald-300 border border-emerald-500/30'
                 : 'bg-rose-950/80 text-rose-300 border border-rose-500/30'
             )}
           >
             {isPositiveChange ? (
-              <TrendingUp className="w-3 h-3" />
+              <TrendingUp className="w-3 h-3 shrink-0" />
             ) : (
-              <TrendingDown className="w-3 h-3" />
+              <TrendingDown className="w-3 h-3 shrink-0" />
             )}
-            <span>{change}</span>
+            <span className="truncate">{change}</span>
           </div>
         )}
       </div>
 
       {/* Contextual Subtitle */}
-      <div className="mt-2.5 pt-2 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-slate-400">
-        <span className="truncate">{contextText}</span>
+      <div className="mt-2.5 pt-2 border-t border-slate-800/80 flex items-center justify-between gap-1 text-[11px] text-slate-400 min-w-0">
+        <span className="truncate min-w-0">{contextText}</span>
         {targetRoute && (
           <ArrowUpRight className="w-3.5 h-3.5 text-slate-500 group-hover:text-cyan-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all shrink-0 ml-1" />
         )}

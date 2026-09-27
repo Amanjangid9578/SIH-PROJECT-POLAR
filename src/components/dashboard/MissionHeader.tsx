@@ -75,11 +75,11 @@ export const MissionHeader: React.FC<MissionHeaderProps> = ({ onDeclareEmergency
             </span>
           </div>
 
-          <h1 className="text-xl sm:text-2xl font-black text-slate-100 uppercase tracking-tight">
+          <h1 className="text-xl sm:text-2xl font-black text-slate-100 uppercase tracking-tight break-words">
             {activeExpedition?.name || 'INDIA POLAR EXPEDITION — 2026'}
           </h1>
 
-          <p className="text-xs text-slate-300 font-sans leading-relaxed">
+          <p className="text-xs text-slate-300 font-sans leading-relaxed break-words">
             Mission Lead: <strong className="text-cyan-300 font-mono">{activeExpedition?.missionCommander}</strong> • Primary Base: <strong className="text-sky-300 font-mono">{primaryStation?.name}</strong>
           </p>
 

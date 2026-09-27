@@ -6,7 +6,6 @@ import {
   Clock,
   Compass,
   User,
-  ShieldCheck,
   ShieldAlert,
   ChevronDown,
   Sparkles
@@ -23,7 +22,6 @@ export const Topbar: React.FC<TopbarProps> = ({ onOpenAiAssistant }) => {
     expeditions,
     activeExpeditionId,
     setActiveExpeditionId,
-    activeExpedition,
     unreadNotificationCount,
     setIsNotificationOpen,
     setIsGlobalSearchOpen,
@@ -32,93 +30,76 @@ export const Topbar: React.FC<TopbarProps> = ({ onOpenAiAssistant }) => {
     emergencies
   } = useApp();
 
-  const criticalEmergencies = emergencies.filter(
+  const isEmergencyActive = emergencies.some(
     e => e.severity === 'CRITICAL' && e.status !== 'RESOLVED'
   );
-  const isEmergencyActive = criticalEmergencies.length > 0;
+
+  const aisLabel =
+    aisStatus === 'LIVE_CONNECTED'
+      ? 'LIVE AIS'
+      : aisStatus === 'CONNECTING'
+        ? 'CONNECTING'
+        : 'AIS OFF';
 
   return (
-    <header className="h-16 bg-polar-900/90 backdrop-blur-md border-b border-slate-800/80 px-4 sm:px-6 flex items-center justify-between z-20 sticky top-0">
-      {/* Left: Organization & Expedition Selector */}
-      <div className="flex items-center gap-4 sm:gap-6">
-        <div className="hidden lg:flex items-center gap-2 pr-4 border-r border-slate-800">
+    <header className="h-16 shrink-0 bg-polar-900/90 backdrop-blur-md border-b border-slate-800/80 px-3 sm:px-4 flex items-center gap-2 sm:gap-3 z-20 sticky top-0 min-w-0 overflow-hidden">
+      {/* Left: Expedition selector */}
+      <div className="flex items-center gap-2 min-w-0 flex-1 overflow-hidden">
+        <div className="hidden xl:flex items-center gap-2 pr-3 border-r border-slate-800 shrink-0">
           <div className="h-8 w-8 rounded bg-cyan-950/60 border border-cyan-500/30 flex items-center justify-center text-cyan-400 font-black font-mono text-xs">
             NCPOR
           </div>
-          <div>
-            <div className="text-[10px] uppercase font-mono tracking-widest text-cyan-400 font-bold">
+          <div className="min-w-0">
+            <div className="text-[10px] uppercase font-mono tracking-widest text-cyan-400 font-bold whitespace-nowrap">
               GOVT. OF INDIA • MoES
             </div>
-            <div className="text-xs font-semibold text-slate-200 tracking-tight">
-              Polar Expedition Operations
+            <div className="text-xs font-semibold text-slate-200 tracking-tight whitespace-nowrap">
+              Polar Ops
             </div>
           </div>
         </div>
 
-        {/* Expedition Selector Dropdown */}
-        <div className="flex items-center gap-2">
-          <div className="hidden sm:flex items-center gap-1.5 text-xs font-mono text-slate-400">
-            <Compass className="w-3.5 h-3.5 text-cyan-400" />
-            <span className="uppercase text-[11px] tracking-wider text-slate-400">EXPEDITION:</span>
-          </div>
+        <div className="flex items-center gap-1.5 min-w-0 flex-1">
+          <Compass className="w-3.5 h-3.5 text-cyan-400 shrink-0 hidden sm:block" />
+          <span className="hidden lg:inline uppercase text-[10px] tracking-wider text-slate-400 font-mono shrink-0">
+            EXPEDITION
+          </span>
 
-          <div className="relative group">
+          <div className="relative min-w-0 flex-1 max-w-[280px]">
             <select
               value={activeExpeditionId}
               onChange={e => setActiveExpeditionId(e.target.value)}
-              className="bg-polar-950/90 border border-slate-700 hover:border-cyan-500/60 text-slate-100 text-xs font-mono font-medium rounded-md px-3 py-1.5 pr-8 appearance-none focus:outline-none focus:ring-1 focus:ring-cyan-400 transition-all cursor-pointer shadow-inner"
+              className="w-full max-w-full bg-polar-950/90 border border-slate-700 hover:border-cyan-500/60 text-slate-100 text-xs font-mono font-medium rounded-md pl-2.5 pr-7 py-1.5 appearance-none focus:outline-none focus:ring-1 focus:ring-cyan-400 transition-all cursor-pointer shadow-inner truncate"
+              title={expeditions.find(e => e.id === activeExpeditionId)?.name}
             >
               {expeditions.map(exp => (
                 <option key={exp.id} value={exp.id} className="bg-polar-900 text-slate-100">
-                  {exp.code} — {exp.name}
+                  {exp.code}
                 </option>
               ))}
             </select>
-            <ChevronDown className="w-3.5 h-3.5 text-slate-400 pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2" />
+            <ChevronDown className="w-3.5 h-3.5 text-slate-400 pointer-events-none absolute right-2 top-1/2 -translate-y-1/2" />
           </div>
-
-          {activeExpedition && (
-            <span className="hidden xl:inline-flex items-center px-2 py-0.5 rounded text-[10px] font-mono uppercase bg-cyan-950/60 text-cyan-300 border border-cyan-500/30">
-              {activeExpedition.status}
-            </span>
-          )}
         </div>
       </div>
 
-      {/* Center: Live UTC Clock & Global Status */}
-      <div className="hidden md:flex items-center gap-4">
-        {/* UTC Clock */}
-        <div className="flex items-center gap-2 px-3 py-1 rounded-md bg-polar-950/80 border border-slate-800 text-xs font-mono text-slate-300">
-          <Clock className="w-3.5 h-3.5 text-sky-400" />
-          <span className="tracking-wider text-sky-200">{utcTime || 'UTC CLOCK'}</span>
+      {/* Center: compact status chips (wide screens only) */}
+      <div className="hidden 2xl:flex items-center gap-2 shrink-0">
+        <div className="flex items-center gap-1.5 px-2 py-1 rounded-md bg-polar-950/80 border border-slate-800 text-[11px] font-mono text-slate-300 whitespace-nowrap">
+          <Clock className="w-3.5 h-3.5 text-sky-400 shrink-0" />
+          <span className="tracking-wider text-sky-200">{utcTime || 'UTC'}</span>
         </div>
 
-        {/* Global Operational Status */}
-        <div
-          className={cn(
-            'flex items-center gap-2 px-3 py-1 rounded-md border text-xs font-mono uppercase font-bold tracking-wider',
-            isEmergencyActive
-              ? 'bg-rose-950/70 border-rose-500/60 text-rose-300 shadow-[0_0_12px_rgba(239,68,68,0.3)] animate-pulse'
-              : 'bg-emerald-950/50 border-emerald-500/40 text-emerald-300 shadow-[0_0_10px_rgba(16,185,129,0.2)]'
-          )}
-        >
-          {isEmergencyActive ? (
-            <>
-              <ShieldAlert className="w-3.5 h-3.5 text-rose-400" />
-              <span>● CRITICAL ALERT ACTIVE</span>
-            </>
-          ) : (
-            <>
-              <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-              <span>● SYSTEM OPERATIONAL</span>
-            </>
-          )}
-        </div>
+        {isEmergencyActive && (
+          <div className="flex items-center gap-1.5 px-2 py-1 rounded-md border bg-rose-950/70 border-rose-500/60 text-rose-300 text-[11px] font-mono uppercase font-bold tracking-wider whitespace-nowrap animate-pulse">
+            <ShieldAlert className="w-3.5 h-3.5 text-rose-400 shrink-0" />
+            <span>CRITICAL</span>
+          </div>
+        )}
 
-        {/* AIS Status Badge */}
         <div
           className={cn(
-            'flex items-center gap-1.5 px-2.5 py-1 rounded-md border text-[11px] font-mono tracking-wider uppercase',
+            'flex items-center gap-1.5 px-2 py-1 rounded-md border text-[11px] font-mono tracking-wider uppercase whitespace-nowrap',
             aisStatus === 'LIVE_CONNECTED'
               ? 'bg-cyan-950/50 border-cyan-500/50 text-cyan-300'
               : 'bg-slate-900 border-slate-700 text-slate-400'
@@ -126,8 +107,52 @@ export const Topbar: React.FC<TopbarProps> = ({ onOpenAiAssistant }) => {
           title={
             aisStatus === 'LIVE_CONNECTED'
               ? 'Real-time WebSocket streaming from AISStream.io'
-              : 'Polar Fleet Telemetry Simulator active'
+              : 'AIS disconnected — demo telemetry active'
           }
+        >
+          <Radio
+            className={cn(
+              'w-3 h-3 shrink-0',
+              aisStatus === 'LIVE_CONNECTED' ? 'text-cyan-400 animate-pulse' : 'text-slate-400'
+            )}
+          />
+          <span>{aisLabel}</span>
+        </div>
+      </div>
+
+      {/* Right: actions — never shrink/overflow */}
+      <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+        <button
+          type="button"
+          onClick={() => setIsGlobalSearchOpen(true)}
+          className="flex items-center gap-1.5 px-2 sm:px-2.5 py-1.5 rounded-md bg-polar-950/90 border border-slate-700 hover:border-cyan-400 text-slate-300 hover:text-white transition-all text-xs font-mono"
+          title="Search Command Center (Ctrl+K)"
+        >
+          <Search className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+          <span className="hidden md:inline">Search</span>
+        </button>
+
+        {onOpenAiAssistant && (
+          <button
+            type="button"
+            onClick={onOpenAiAssistant}
+            className="flex items-center gap-1.5 px-2 sm:px-2.5 py-1.5 rounded-md bg-cyan-950/80 border border-cyan-500/40 hover:border-cyan-400 text-cyan-300 hover:text-cyan-200 transition-all text-xs font-mono font-medium"
+            title="POLAR AI Assistant"
+          >
+            <Sparkles className="w-3.5 h-3.5 text-cyan-400 animate-pulse shrink-0" />
+            <span className="hidden md:inline">AI</span>
+          </button>
+        )}
+
+        {/* Compact AIS on mid widths where center strip is hidden */}
+        <div
+          className={cn(
+            '2xl:hidden flex items-center gap-1 px-1.5 py-1.5 rounded-md border text-[10px] font-mono uppercase',
+            aisStatus === 'LIVE_CONNECTED'
+              ? 'bg-cyan-950/50 border-cyan-500/50 text-cyan-300'
+              : 'bg-slate-900 border-slate-700 text-slate-400'
+          )}
+          title={aisLabel}
         >
           <Radio
             className={cn(
@@ -135,38 +160,10 @@ export const Topbar: React.FC<TopbarProps> = ({ onOpenAiAssistant }) => {
               aisStatus === 'LIVE_CONNECTED' ? 'text-cyan-400 animate-pulse' : 'text-slate-400'
             )}
           />
-          <span>{aisStatus === 'LIVE_CONNECTED' ? 'LIVE AIS' : 'DEMO AIS'}</span>
         </div>
-      </div>
 
-      {/* Right: Search, Notifications, AI Assistant & User Profile */}
-      <div className="flex items-center gap-2 sm:gap-3">
-        {/* Global Search Button */}
         <button
-          onClick={() => setIsGlobalSearchOpen(true)}
-          className="flex items-center gap-2 px-2.5 sm:px-3 py-1.5 rounded-md bg-polar-950/90 border border-slate-700 hover:border-cyan-400 text-slate-300 hover:text-white transition-all text-xs font-mono group"
-          title="Search Command Center (Ctrl+K)"
-        >
-          <Search className="w-3.5 h-3.5 text-slate-400 group-hover:text-cyan-400" />
-          <span className="hidden sm:inline">Search...</span>
-          <kbd className="hidden sm:inline-block px-1.5 py-0.5 text-[10px] font-mono text-slate-400 bg-polar-800 rounded border border-slate-700">
-            Ctrl K
-          </kbd>
-        </button>
-
-        {/* POLAR AI Button */}
-        {onOpenAiAssistant && (
-          <button
-            onClick={onOpenAiAssistant}
-            className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-md bg-cyan-950/80 border border-cyan-500/40 hover:border-cyan-400 text-cyan-300 hover:text-cyan-200 transition-all text-xs font-mono font-medium shadow-[0_0_12px_rgba(6,182,212,0.25)]"
-          >
-            <Sparkles className="w-3.5 h-3.5 text-cyan-400 animate-pulse" />
-            <span className="hidden sm:inline">POLAR AI</span>
-          </button>
-        )}
-
-        {/* Notification Bell */}
-        <button
+          type="button"
           onClick={() => setIsNotificationOpen(true)}
           className="relative p-2 rounded-md bg-polar-950/90 border border-slate-700 hover:border-cyan-400 text-slate-300 hover:text-white transition-all"
           aria-label="View notifications"
@@ -179,18 +176,9 @@ export const Topbar: React.FC<TopbarProps> = ({ onOpenAiAssistant }) => {
           )}
         </button>
 
-        {/* User Profile */}
-        <div className="flex items-center gap-2.5 pl-2 border-l border-slate-800">
-          <div className="h-8 w-8 rounded-full bg-polar-800 border border-cyan-500/40 flex items-center justify-center text-cyan-400 font-mono text-xs font-bold shadow-inner">
+        <div className="hidden sm:flex items-center gap-2 pl-2 border-l border-slate-800 shrink-0">
+          <div className="h-8 w-8 rounded-full bg-polar-800 border border-cyan-500/40 flex items-center justify-center text-cyan-400 font-mono text-xs font-bold shadow-inner shrink-0">
             <User className="w-4 h-4" />
-          </div>
-          <div className="hidden xl:block text-left">
-            <div className="text-xs font-mono font-bold text-slate-200 truncate">
-              Dr. R. K. Nair
-            </div>
-            <div className="text-[10px] font-mono text-cyan-400/90 tracking-wide">
-              EXPEDITION DIRECTOR
-            </div>
           </div>
         </div>
       </div>
