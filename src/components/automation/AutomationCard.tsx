@@ -1,9 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
-  Cpu,
   ArrowRight,
-  CheckCircle2,
-  Clock,
   Play,
   ToggleLeft,
   ToggleRight
@@ -22,6 +19,36 @@ export const AutomationCard: React.FC<AutomationCardProps> = ({
   onToggle,
   onExecuteNow
 }) => {
+  const [expandedField, setExpandedField] = useState<'trigger' | 'condition' | 'action' | null>(null);
+
+  const LogicChip: React.FC<{
+    id: 'trigger' | 'condition' | 'action';
+    label: string;
+    value: string;
+    valueClass: string;
+  }> = ({ id, label, value, valueClass }) => {
+    const expanded = expandedField === id;
+    return (
+      <button
+        type="button"
+        onClick={() => setExpandedField(expanded ? null : id)}
+        title={value}
+        className="w-full min-w-0 max-w-full bg-polar-900 border border-slate-700/60 rounded px-2.5 py-1.5 text-left overflow-hidden hover:border-cyan-500/40 transition-colors"
+      >
+        <span className="text-[9px] uppercase font-bold text-slate-500 block">{label}</span>
+        <span
+          className={cn(
+            'text-[11px] font-mono block break-words',
+            valueClass,
+            expanded ? 'whitespace-normal' : 'truncate group-hover/chip:whitespace-normal group-hover/chip:break-words'
+          )}
+        >
+          {value}
+        </span>
+      </button>
+    );
+  };
+
   return (
     <div
       className={cn(
@@ -87,32 +114,22 @@ export const AutomationCard: React.FC<AutomationCardProps> = ({
       </p>
 
       {/* Reactive Logic Chain: TRIGGER → CONDITION → ACTION */}
-      <div className="p-3 rounded-lg bg-polar-950/90 border border-slate-800/80 space-y-2 text-xs">
-        <div className="flex flex-col sm:flex-row sm:items-center gap-2">
-          {/* TRIGGER */}
-          <div className="flex-1 bg-polar-900 border border-slate-700/60 rounded px-2.5 py-1.5">
-            <span className="text-[9px] uppercase font-bold text-slate-500 block">TRIGGER</span>
-            <span className="text-[11px] text-cyan-300 font-bold font-mono">{rule.trigger}</span>
+      <div className="p-3 rounded-lg bg-polar-950/90 border border-slate-800/80 space-y-2 text-xs overflow-hidden">
+        <div className="flex flex-col sm:flex-row sm:items-start gap-2 min-w-0 overflow-hidden">
+          <div className="flex-1 min-w-0 group/chip">
+            <LogicChip id="trigger" label="TRIGGER" value={rule.trigger} valueClass="text-cyan-300 font-bold" />
           </div>
 
-          <ArrowRight className="w-4 h-4 text-slate-600 shrink-0 self-center hidden sm:block" />
+          <ArrowRight className="w-4 h-4 text-slate-600 shrink-0 self-center hidden sm:block mt-4" />
 
-          {/* CONDITION */}
-          <div className="flex-1 bg-polar-900 border border-slate-700/60 rounded px-2.5 py-1.5">
-            <span className="text-[9px] uppercase font-bold text-slate-500 block">CONDITION</span>
-            <span className="text-[11px] text-amber-300 font-mono truncate block" title={rule.condition}>
-              {rule.condition}
-            </span>
+          <div className="flex-1 min-w-0 group/chip">
+            <LogicChip id="condition" label="CONDITION" value={rule.condition} valueClass="text-amber-300" />
           </div>
 
-          <ArrowRight className="w-4 h-4 text-slate-600 shrink-0 self-center hidden sm:block" />
+          <ArrowRight className="w-4 h-4 text-slate-600 shrink-0 self-center hidden sm:block mt-4" />
 
-          {/* ACTION */}
-          <div className="flex-1 bg-polar-900 border border-slate-700/60 rounded px-2.5 py-1.5">
-            <span className="text-[9px] uppercase font-bold text-slate-500 block">ACTION</span>
-            <span className="text-[11px] text-emerald-300 font-bold font-mono truncate block" title={rule.action}>
-              {rule.action}
-            </span>
+          <div className="flex-1 min-w-0 group/chip">
+            <LogicChip id="action" label="ACTION" value={rule.action} valueClass="text-emerald-300 font-bold" />
           </div>
         </div>
       </div>

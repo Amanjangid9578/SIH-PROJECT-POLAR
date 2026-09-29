@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import { Sidebar } from './Sidebar';
 import { Topbar } from './Topbar';
-import { DemoControlBar } from './DemoControlBar';
 import { GlobalSearchModal } from './GlobalSearchModal';
 import { NotificationDrawer } from './NotificationDrawer';
 import { PolarAssistant } from '../ai/PolarAssistant';
@@ -34,8 +33,6 @@ export const AppLayout: React.FC = () => {
           onOpenAiAssistant={() => setIsAiOpen(true)}
           onOpenMobileNav={() => setMobileNavOpen(true)}
         />
-
-        <DemoControlBar />
 
         <main className="flex-1 overflow-y-auto relative bg-polar-950 polar-grid p-3 sm:p-4 md:p-6 pb-24 sm:pb-6">
           <Outlet />
